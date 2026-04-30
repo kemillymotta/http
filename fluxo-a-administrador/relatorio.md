@@ -24,7 +24,8 @@
 
 ## Atividade 1 — Primeira captura
 
-**Captura de tela:** `evidencias/atv1_sessao.png`
+**Captura de tela:** 
+evidencias/atv1.png
 
 **Request-line enviada:**
 
