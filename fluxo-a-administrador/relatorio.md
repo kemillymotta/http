@@ -25,18 +25,18 @@
 ## Atividade 1 — Primeira captura
 
 **Captura de tela:** 
-evidencias/atv1.png
+![Captura da atividade](../evidencias/atv1.png)
 
 **Request-line enviada:**
 
 ```http
-[colar aqui a linha inicial do request, ex: GET / HTTP/1.1]
+[GET http://example.com/ HTTP/1.1]
 ```
 
 **Status-line recebida:**
 
 ```http
-[colar aqui, ex: HTTP/1.1 200 OK]
+[HTTP/1.1 304 Not Modified]
 ```
 
 ### Pergunta 1.1
