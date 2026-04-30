@@ -10,11 +10,11 @@
 
 | Campo       | Valor                  |
 |-------------|------------------------|
-| Nome        | [seu nome completo]    |
-| RA          | [seu RA]               |
+| Nome        | Kemilly Cristina de Oliveira Motta    |
+| Nome        | Renato Teixeira Martins Junior    |
 | Disciplina  | Redes de Computadores  |
-| Turma       | [sua turma]            |
-| Data        | [data da realização]   |
+| Turma       | SI/2            |
+| Data        | 30/04   |
 | Fluxo       | **A — Aluno com privilégio de administrador** |
 | SO utilizado | [Windows 11 / Ubuntu 22.04 / macOS ...] |
 | Ferramenta de proxy | [Fiddler Classic / mitmproxy / HTTP Toolkit / ...] |
