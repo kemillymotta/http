@@ -206,7 +206,7 @@ Cabeçalhos:
 
 ![Captura da atividade](../evidencias/atv6.png)
 ![Captura da atividade](../evidencias/atv6_sem.png)
-**Captura de tela HTTPS com decriptação (`https://httpbin.org/get`):** `evidencias/atv6_https_com.png`
+![Captura da atividade](../evidencias/atv6_com.png)
 
 ### Pergunta 6.1
 > No `https://httpbin.org/get` sem decriptação, que método aparece? O que ele faz e por que existe?
