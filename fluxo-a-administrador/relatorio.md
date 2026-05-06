@@ -238,27 +238,29 @@ Cabeçalhos:
 
 ## Atividade 8 — Manipulação com breakpoints
 
-**Captura de tela da edição do User-Agent:** `evidencias/atv8_ua_edit.png`
+**Captura de tela da edição do User-Agent:** 
+![Captura da atividade](../evidencias/atv8.png)
 
 **JSON de resposta após edição:**
 
 ```json
 {
-  "user-agent": "[valor forjado]"
+  "user-agent": "LaboratorioRedes/1.0 (Aluno KEMILLY)"
 }
 ```
 
 ### Pergunta 8.1
 > O servidor pode detectar que o `User-Agent` foi forjado? Discuta.
 
-**Resposta:** [...]
+**Resposta:** [Não, o servidor não consegue ter certeza. O User-Agent é só um texto enviado pelo cliente e pode ser facilmente falsificado. O servidor pode até suspeitar comparando alguns sinais, mas não tem como confirmar com segurança.]
 
 ### Pergunta 8.2
 > Após editar a status-line de `200 OK` para `404 Not Found`, o que o navegador exibe? Comente o papel do proxy como MITM.
 
-**Captura de tela:** `evidencias/atv8_status_edit.png`
+**Captura de tela:** 
+![Captura da atividade](../evidencias/atv8_status_edit.png)
 
-**Resposta:** [...]
+**Resposta:** [O navegador exibiu erro 404 Not Found após a resposta ser alterada no Fiddler, mesmo que o servidor tivesse enviado 200 OK. Isso mostra que o proxy, atuando como intermediário, conseguiu modificar a resposta no caminho, fazendo o navegador interpretar o recurso como inexistente. O corpo da resposta continuou igual, mas o status alterado prevaleceu. Conclusão: um proxy MITM pode modificar status, cabeçalhos ou conteúdo sem o servidor perceber, e é justamente o TLS com verificação de certificado que impede esse tipo de manipulação não autorizada.]
 
 ### Pergunta 8.3
 > Confirme que todos os breakpoints foram desabilitados.
@@ -271,43 +273,43 @@ Cabeçalhos:
 
 ### 1. Ordem dos elementos em uma mensagem HTTP/1.1. O que separa cabeçalhos do corpo?
 
-[resposta]
+[Request-line (ou status-line) → cabeçalhos → linha em branco (\r\n\r\n) → corpo. A linha em branco é o separador.]
 
 ### 2. Por que `Host` é obrigatório em HTTP/1.1 mas era opcional em HTTP/1.0?
 
-[resposta]
+[Em HTTP/1.1 um mesmo servidor pode hospedar vários domínios (virtual hosting). Sem o Host, o servidor não saberia qual site entregar.]
 
 ### 3. Diferença entre `401 Unauthorized` e `403 Forbidden`.
 
-[resposta]
+[401 significa "não autenticado — faça login". 403 significa "autenticado, mas sem permissão — acesso negado".]
 
 ### 4. Um `POST` enviado duas vezes produz o mesmo efeito? E um `PUT`? Justifique em termos de idempotência.
 
-[resposta]
+[POST não é idempotente — dois envios podem criar dois recursos. PUT é idempotente — enviar duas vezes substitui pelo mesmo resultado.]
 
 ### 5. Por que HTTPS permite ainda que um observador saiba qual site está sendo visitado? (SNI, DNS)
 
-[resposta]
+[O DNS resolve o domínio em texto puro antes da conexão, e o SNI (Server Name Indication) envia o domínio sem criptografia no handshake TLS.]
 
 ### 6. O que muda com `Content-Encoding: gzip`? Onde os dados são compactados e descompactados?
 
-[resposta]
+[O servidor compacta o corpo antes de enviar; o navegador descompacta ao receber. O Content-Length reflete o tamanho comprimido.]
 
 ### 7. Impacto prático de `Cache-Control: no-store`.
 
-[resposta]
+[O navegador nunca armazena a resposta em cache — cada acesso gera uma nova requisição ao servidor, útil para dados sensíveis.]
 
 ### 8. Como o Fiddler decifra HTTPS sem violar a criptografia, e por que exige cooperação do usuário?
 
-[resposta]
+[Instala um certificado raiz próprio no SO do usuário, agindo como MITM autorizado. Por isso exige cooperação — sem o certificado instalado, o navegador recusa a conexão.]
 
 ### 9. Exemplo de cabeçalho de request que o navegador envia automaticamente, sem a página pedir.
 
-[resposta]
+[User-Agent — o navegador o envia em toda requisição sem que a página solicite, identificando o cliente ao servidor.]
 
 ### 10. Se fosse automatizar a inspeção via script, qual ferramenta alternativa escolheria? Por quê?
 
-[resposta]
+[mitmproxy — é open source, programável em Python, permite interceptar e modificar tráfego HTTP/HTTPS via script, ideal para automação e testes.]
 
 ---
 
