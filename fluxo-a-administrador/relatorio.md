@@ -43,57 +43,62 @@
 > Quantos cabeçalhos o navegador enviou no request? Liste-os.
 
 **Resposta:**
-[número total]
+[8]
 
 Cabeçalhos:
-- [cabeçalho 1]
-- [cabeçalho 2]
-- ...
+- [Host: example.com]
+- [Connection: keep-alive]
+- [Upgrade-Insecure-Requests: 1]
+- [User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36]
+- [Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7]
+- [Accept-Encoding: gzip, deflate]
+- [Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7]
+- [If-Modified-Since: Wed, 06 May 2026 14:21:37 GMT]
 
 ### Pergunta 1.2
 > Qual foi o `Content-Length` da resposta? Se ele não apareceu, registre `Transfer-Encoding`, versão do protocolo ou outro indício observado. O corpo retornado é HTML, texto puro, JSON ou binário? Como você descobriu?
 
-**Resposta:** [...]
+**Resposta:** [O servidor respondeu com 304 Not Modified, indicando que o recurso não foi alterado e, por isso, não há corpo na resposta nem cabeçalhos como Content-Length ou Transfer-Encoding, o que é esperado nesse caso. O servidor é o Cloudflare (CF-Cache-Status: HIT) e o Last-Modified coincide com o valor enviado pelo cliente, confirmando que o conteúdo permanece igual, enquanto o ETag ("69fb4e71-210") indica um recurso estático pequeno compatível com a página padrão do site. Assim, nenhum dado foi retransmitido e o navegador reutilizou o cache, sendo possível inferir que o conteúdo original seria HTML.]
 
 ---
 
 ## Atividade 2 — Anatomia de um GET
 
-**Captura de tela:** `evidencias/atv2_raw.png`
+![Captura da atividade](../evidencias/atv2.png)
 
 **Request-line completa:**
 
 ```http
-[colar aqui]
+[GET https://httpbin.org/get?aluno=SEU_NOME&curso=redes HTTP/1.1]
 ```
 
 **Cabeçalhos-chave capturados:**
 
 | Cabeçalho    | Valor                    |
 |--------------|--------------------------|
-| `Host`       | [...]                    |
-| `User-Agent` | [...]                    |
-| `Accept`     | [...]                    |
+| `Host`       | [httpbin.org]                    |
+| `User-Agent` | [Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36]                    |
+| `Accept`     | [text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7]                    |
 
 **Campos do JSON de resposta:**
 
 ```json
 {
-  "args":    [colar valor],
-  "headers": [colar valor resumido],
-  "origin":  [colar valor]
+  "args":    [aluno=SEU_NOME, curso=redes],
+  "headers": [Accept, Accept-Encoding, Accept-Language, Host, Sec-Ch-Ua, Sec-Ch-Ua-Mobile, Sec-Ch-Ua-Platform, Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-Fetch-User, Upgrade-Insecure-Requests, User-Agent, X-Amzn-Trace-Id],
+  "origin":  [177.170.76.83]
 }
 ```
 
 ### Pergunta 2.1
 > O valor do campo `origin` corresponde a qual elemento da rede? Por que normalmente não é o IP local?
 
-**Resposta:** [...]
+**Resposta:** [O campo origin representa o IP público da conexão, ou seja, o endereço que o servidor enxerga na internet. Esse IP geralmente é do roteador (gateway da rede), e não do dispositivo, porque o NAT substitui o IP privado (como 192.168.x.x) pelo IP público ao enviar a requisição. Assim, o servidor vê apenas o IP externo, não o interno.]
 
 ### Pergunta 2.2
 > Compare o `User-Agent` enviado com o que aparece no JSON da resposta. Coincidem?
 
-**Resposta:** [...]
+**Resposta:** [Sim, são idênticos. Isso era esperado, pois o httpbin.org funciona como um espelho, ele simplesmente devolve no JSON exatamente os cabeçalhos que recebeu. Isso confirma que o Fiddler capturou o request com fidelidade e que nenhum intermediário alterou o cabeçalho User-Agent durante o trajeto.]
 
 ### Pergunta 2.3
 > Em `https://httpbin.org/headers`, liste até três cabeçalhos que o servidor vê mas **não aparecem** no Raw do request. De onde vêm? Se não encontrar três, explique por que o resultado pode variar.
@@ -102,52 +107,59 @@ Cabeçalhos:
 
 | Cabeçalho visto pelo servidor | Origem provável | Observação |
 |-------------------------------|-----------------|------------|
-| [...]                         | [...]           | [...]      |
-| [...]                         | [...]           | [...]      |
-| [...]                         | [...]           | [...]      |
+| [X-Amzn-Trace-Id]                         | [Infraestrutura AWS/CDN intermediária]           | [Adicionado automaticamente por um proxy ou load balancer da Amazon no caminho até o servidor, invisível no Raw do Fiddler]      |
+| [Sec-Ch-Ua]                         | [Navegador (Chrome)]           | [Cabeçalho moderno de Client Hints; pode não aparecer no Raw dependendo da versão do Fiddler, mas o servidor o recebe]      |
+| [Sec-Ch-Ua-Platform]                         | [Navegador (Chrome)]           | [Também um Client Hint gerado automaticamente pelo Chrome; indica o SO da máquina ("Windows"), nem sempre exibido no Raw]      |
 
 ---
 
 ## Atividade 3 — POST e envio de formulário
 
-**Captura de tela:** `evidencias/atv3_post_raw.png`
+![Captura da atividade](../evidencias/atv3.png)
 
 **Request-line do POST:**
 
 ```http
-[colar aqui]
+[POST https://httpbin.org/post HTTP/1.1]
 ```
 
 **Cabeçalhos do request:**
 
 | Cabeçalho        | Valor |
 |------------------|-------|
-| `Content-Type`   | [...] |
-| `Content-Length` | [...] |
+| `Content-Type`   | [application/x-www-form-urlencoded] |
+| `Content-Length` | [146] |
 
 **Corpo completo do request:**
 
 ```
-[colar aqui o body enviado]
+[comments=Tocar+interfone&custemail=renatinho%40gmail.com&custname=Renato
+&custtel=40028922&delivery=12%3A00&size=large&topping=bacon&topping=cheese]
 ```
 
 **Trecho do JSON de resposta (campo `form`):**
 
 ```json
 "form": {
-  [colar aqui]
+  "comments": "Tocar interfone",
+  "custemail": "renatinho@gmail.com",
+  "custname": "Renato",
+  "custtel": "40028922",
+  "delivery": "12:00",
+  "size": "large",
+  "topping": ["bacon", "cheese"]
 }
 ```
 
 ### Pergunta 3.1
 > Qual o formato do corpo? Como esse formato codifica caracteres especiais (espaço, acentos)?
 
-**Resposta:** [...]
+**Resposta:** [O corpo está no formato application/x-www-form-urlencoded. Nesse formato, os dados são enviados como pares chave=valor (ex: nome=Renato&mensagem=Ola+Mundo). Caracteres especiais são codificados por URL encoding, onde espaços viram + ou %20, e acentos ou outros caracteres são convertidos para sua representação em hexadecimal (ex: á → %C3%A1).]
 
 ### Pergunta 3.2
 > Comparando **Request → WebForms** e **Request → Raw**: qual das duas corresponde literalmente aos bytes enviados no socket TCP?
 
-**Resposta:** [...]
+**Resposta:** [A visualização Request → Raw é a que corresponde literalmente aos bytes enviados no socket TCP, pois mostra a requisição exatamente como foi transmitida. Já o WebForms é apenas uma representação interpretada e organizada dos dados, facilitando a leitura, mas não refletindo fielmente o formato bruto enviado.]
 
 ### Pergunta 3.3 — Composer
 > Envie manualmente via Composer um `POST` para `https://httpbin.org/post` com JSON. Registre a resposta. Qual campo do JSON confirma que o servidor interpretou o JSON?
@@ -164,42 +176,13 @@ Cabeçalhos:
 
 **Resposta:** [...]
 
----
-
-## Atividade 4 — Catálogo de status codes
-
-**Captura de tela (lista do Fiddler com as 7 sessões):** `evidencias/atv4_lista.png`
-
-| # | Método | URL | Status-line | `Content-Length` / `Transfer-Encoding` | Body presente? |
-|---|--------|-----|-------------|-----------------------------------------|----------------|
-| 1 | GET    | `https://httpbin.org/status/200` | [...] | [...] | [sim/não] |
-| 2 | GET    | `https://httpbin.org/redirect-to?status_code=301&url=/get` | [...] | [...] | [sim/não] |
-| 3 | GET    | `https://httpbin.org/status/404` | [...] | [...] | [sim/não] |
-| 4 | GET    | `https://httpbin.org/status/418` | [...] | [...] | [sim/não] |
-| 5 | GET    | `https://httpbin.org/status/500` | [...] | [...] | [sim/não] |
-| 6 | GET    | `https://httpbin.org/status/503` | [...] | [...] | [sim/não] |
-| 7 | GET    | `https://www.example.com/` com `If-Modified-Since` | [...] | [...] | [sim/não] |
-
-### Pergunta 4.1
-> Em qual dos status o corpo está ausente/tamanho zero? Isso é obrigatório pela especificação ou depende do servidor?
-
-**Resposta:** [...]
-
-### Pergunta 4.2
-> No `301`, qual cabeçalho da resposta informa para onde ir? O que aconteceria se estivesse ausente?
-
-**Resposta:** [...]
-
-### Pergunta 4.3
-> Diferença semântica entre `200`, `304` e `404` do ponto de vista do cache do navegador.
-
-**Resposta:** [...]
+**LINK NÃO FUNCIONOU**
 
 ---
 
 ## Atividade 5 — Identificação de cabeçalhos
 
-**Captura de tela (Inspectors → Headers):** `evidencias/atv5_headers.png`
+![Captura da atividade](../evidencias/atv5.png)
 
 | Cabeçalho                    | Req/Resp | Valor capturado | Função em uma frase |
 |------------------------------|----------|------------------|----------------------|
