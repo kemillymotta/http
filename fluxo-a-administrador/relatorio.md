@@ -211,60 +211,23 @@ Cabeçalhos:
 ### Pergunta 6.1
 > No `https://httpbin.org/get` sem decriptação, que método aparece? O que ele faz e por que existe?
 
-**Resposta:** [...]
+**Resposta:** [Sem decriptação ativada, o Fiddler mostra apenas o método CONNECT, que cria um túnel TCP criptografado até o servidor. O GET real fica dentro desse túnel e não pode ser visualizado. Esse método existe para permitir que proxies transportem HTTPS sem quebrar a criptografia, funcionando como um canal transparente. A resposta 200 Connection Established confirma que o túnel foi criado com sucesso.]
 
 ### Pergunta 6.2
 > Com decriptação desabilitada, o que ainda é visível no HTTPS e o que está oculto?
 
-**Resposta (visível):** [...]
-**Resposta (oculto):** [...]
+**Resposta (visível):** [Domínio de destino (httpbin.org:443), porta (443), tamanho do tráfego (bytes enviados e recebidos), versão do TLS (1.2), cipher suite negociado e tempo de conexão.]
+**Resposta (oculto):** [Método HTTP real (GET), URL completa (/get), cabeçalhos, corpo da requisição e resposta, status code e cookies.]
 
 ### Pergunta 6.3
 > O que muda quando a decriptação é ativada? Que dados passam a ser inspecionáveis?
 
-**Resposta:** [...]
+**Resposta:** [Com a decriptação ativada, o Fiddler deixa de mostrar só o CONNECT e passa a exibir toda a requisição real: método GET, URL completa, cabeçalhos, corpo em JSON, status 200 OK e o IP de origem. Antes, sem decriptação, era visível apenas o túnel (CONNECT, domínio e porta); depois, todo o conteúdo HTTP que estava criptografado passa a ser acessível.]
 
 ### Pergunta 6.4
 > Por que a técnica do Fiddler **não** funcionaria contra você se um atacante a tentasse sem instalar o certificado?
 
-**Resposta:** [...]
-
----
-
-## Atividade 7 — Cookies e sessão
-
-**Captura de tela da sequência:** `evidencias/atv7_cookies.png`
-
-| # | URL | `Set-Cookie` recebido | `Cookie` enviado |
-|---|-----|-----------------------|-------------------|
-| 1 | `/cookies/set?...`       | [...] | [nenhum / ...] |
-| 2 | `/cookies` (1ª visita)   | [...] | [...]          |
-| 3 | `/cookies` (reload 1)    | [...] | [...]          |
-| 4 | `/cookies` (reload 2)    | [...] | [...]          |
-
-### Pergunta 7.1
-> `Set-Cookie` aparece uma vez ou em toda requisição? Justifique.
-
-**Resposta:** [...]
-
-### Pergunta 7.2
-> Que atributos o `Set-Cookie` trouxe? Explique cada um presente. Para atributos não observados, registre `não observado`.
-
-**Resposta:**
-
-| Atributo | Valor | Função |
-|----------|-------|--------|
-| [...]    | [...] | [...]  |
-
-### Pergunta 7.3
-> O cookie observado trouxe `Secure`? Se não trouxe, em que cenário poderia vazar?
-
-**Resposta:** [...]
-
-### Pergunta 7.4
-> Na aba **Inspectors → Cookies**, o cookie armazenado coincide com o campo `cookies` do JSON?
-
-**Resposta:** [...]
+**Resposta:** [Sem o certificado do Fiddler instalado, a interceptação não funciona porque o navegador não confia no certificado apresentado. O Fiddler atua como um intermediário (MitM), gerando certificados para decriptar o tráfego, mas isso só é aceito porque seu certificado raiz foi instalado e confiado no sistema. Sem isso, o navegador detecta que a autoridade não é válida e bloqueia a conexão com erro como NET::ERR_CERT_AUTHORITY_INVALID, impedindo qualquer acesso aos dados. Em resumo, só funciona porque o certificado foi explicitamente confiado; um atacante externo não consegue fazer isso.]
 
 ---
 
