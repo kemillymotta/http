@@ -326,7 +326,7 @@ Cabeçalhos:
 ## Encerramento — Higiene de segurança (obrigatório no Fluxo A)
 
 **Captura de tela do `certmgr.msc` após remoção do certificado:**
-![Captura da atividade](../evidencias/atv8.png)
+![Captura da atividade](../evidencias/encerramento_certmgr.png)
 
 - [x] *Decrypt HTTPS traffic* desabilitado no Fiddler
 - [x] Certificado `DO_NOT_TRUST_FiddlerRoot` removido do Windows (`certmgr.msc`)
@@ -341,9 +341,9 @@ Cabeçalhos:
 
 ## Checklist de entrega
 
-- [ ] Todos os campos `[...]` substituídos
-- [ ] Pasta `evidencias/` com capturas nomeadas por atividade
-- [ ] 10 questões de verificação respondidas
-- [ ] Evidência de remoção do certificado anexada
-- [ ] Arquivo compactado como `NOME_RA_LAB_HTTP_FLUXOA.zip`
-- [ ] Submetido no Microsoft Teams dentro do prazo
+- [x] Todos os campos `[...]` substituídos
+- [x] Pasta `evidencias/` com capturas nomeadas por atividade
+- [x] 10 questões de verificação respondidas
+- [x] Evidência de remoção do certificado anexada
+- [x] Arquivo compactado como `NOME_RA_LAB_HTTP_FLUXOA.zip`
+- [x] Submetido no Microsoft Teams dentro do prazo
