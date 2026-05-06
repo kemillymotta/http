@@ -204,7 +204,7 @@ Cabeçalhos:
 
 ## Atividade 6 — HTTP vs HTTPS
 
-**Captura de tela HTTP (`neverssl.com`):** `evidencias/atv6_http.png`
+![Captura da atividade] **Captura de tela HTTP (`neverssl.com`):** (../evidencias/atv6.png)
 **Captura de tela HTTPS sem decriptação (`https://httpbin.org/get`):** `evidencias/atv6_https_sem.png`
 **Captura de tela HTTPS com decriptação (`https://httpbin.org/get`):** `evidencias/atv6_https_com.png`
 
