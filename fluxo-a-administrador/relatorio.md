@@ -162,19 +162,6 @@ Cabeçalhos:
 **Resposta:** [A visualização Request → Raw é a que corresponde literalmente aos bytes enviados no socket TCP, pois mostra a requisição exatamente como foi transmitida. Já o WebForms é apenas uma representação interpretada e organizada dos dados, facilitando a leitura, mas não refletindo fielmente o formato bruto enviado.]
 
 ### Pergunta 3.3 — Composer
-> Envie manualmente via Composer um `POST` para `https://httpbin.org/post` com JSON. Registre a resposta. Qual campo do JSON confirma que o servidor interpretou o JSON?
-
-**Captura de tela:** `evidencias/atv3_composer.png`
-
-**Response JSON (trecho relevante):**
-
-```json
-{
-  [colar aqui]
-}
-```
-
-**Resposta:** [...]
 
 **LINK NÃO FUNCIONOU**
 
@@ -186,32 +173,32 @@ Cabeçalhos:
 
 | Cabeçalho                    | Req/Resp | Valor capturado | Função em uma frase |
 |------------------------------|----------|------------------|----------------------|
-| `Host`                       | [...]    | [...]            | [...]                |
-| `User-Agent`                 | [...]    | [...]            | [...]                |
-| `Accept`                     | [...]    | [...]            | [...]                |
-| `Accept-Encoding`            | [...]    | [...]            | [...]                |
-| `Cookie`                     | [...]    | [...]            | [...]                |
-| `Server`                     | [...]    | [...]            | [...]                |
-| `Content-Type`               | [...]    | [...]            | [...]                |
-| `Content-Encoding`           | [...]    | [...]            | [...]                |
-| `Set-Cookie`                 | [...]    | [...]            | [...]                |
-| `Cache-Control`              | [...]    | [...]            | [...]                |
-| `Strict-Transport-Security`  | [...]    | [...]            | [...]                |
+| `Host`                       | [Request]    | [httpbin.org]            | [Identifica o servidor de destino da requisição]                |
+| `User-Agent`                 | [Request]    | [Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/147.0.0.0]            | [Informa ao servidor qual navegador e SO está fazendo a requisição]                |
+| `Accept`                     | [Request]    | [text/html, application/xhtml+xml, application/xml;q=0.9...]            | [Informa os tipos de conteúdo que o cliente aceita receber]                |
+| `Accept-Encoding`            | [Request]    | [gzip, deflate, br, zstd]            | [Informa os algoritmos de compressão que o cliente suporta]                |
+| `Cookie`                     | [Request]    | [ausente — cookie ainda não existia no momento do request]            | [Envia cookies armazenados ao servidor para manter sessão/estado]                |
+| `Server`                     | [Response]    | [gunicorn/19.9.0]            | [Identifica o software do servidor que processou a requisição]                |
+| `Content-Type`               | [Response]    | [application/json]            | [Informa o formato do corpo da resposta]                |
+| `Content-Encoding`           | [Response]    | [ausente]            | [Indica a compressão aplicada ao corpo da resposta]                |
+| `Set-Cookie`                 | [Response]    | [teste=1]            | [Instrui o navegador a armazenar um cookie para uso futuro]                |
+| `Cache-Control`              | [Response]    | [max-age=3600]            | [Define por quanto tempo o recurso pode ser armazenado em cache]                |
+| `Strict-Transport-Security`  | [Response]    | [max-age=31536000]            | [Força o navegador a usar HTTPS por 1 ano nesse domínio]                |
 
 ### Pergunta 5.1
 > `Content-Encoding: gzip`/`br` apareceu? Compare `Content-Length`, quando presente, com o conteúdo visível. O que explica a diferença?
 
-**Resposta:** [...]
+**Resposta:** [Não apareceu Content-Encoding: gzip ou br, pois o corpo da resposta é pequeno (185 bytes) e não precisou ser comprimido. O Content-Length bate com o tamanho do conteúdo visível, já que não houve compressão. Se houvesse gzip ou br, o valor de Content-Length representaria o tamanho comprimido (menor), enquanto o conteúdo exibido após descompressão seria maior, explicando a diferença.]
 
 ### Pergunta 5.2
 > Cliente envia `Accept: application/json` mas o recurso só existe em `text/html`. Qual status code esperar?
 
-**Resposta:** [...]
+**Resposta:** [Se o cliente envia Accept: application/json, ele está dizendo que só aceita JSON. Se o servidor não tiver esse formato (por exemplo, só tiver text/html), o comportamento correto seria retornar 406 Not Acceptable. Resumindo, se o servidor tem o formato pedido retorna 200 OK, se não tem retorna 406, e se o recurso nem existe retorna 404 Not Found. Na prática, porém, muitos servidores ignoram o Accept e respondem 200 OK com HTML mesmo assim.]
 
 ### Pergunta 5.3
 > `Strict-Transport-Security` apareceu? Qual seu papel contra downgrades para HTTP puro?
 
-**Resposta:** [...]
+**Resposta:** [Sim, o cabeçalho Strict-Transport-Security: max-age=31536000 apareceu e indica que o navegador deve acessar o site apenas via HTTPS por 1 ano. Isso impede ataques de downgrade, como o SSL Strip, porque o navegador passa a converter automaticamente qualquer tentativa de acesso HTTP para HTTPS antes mesmo de fazer a requisição, garantindo uma conexão segura.]
 
 ---
 
