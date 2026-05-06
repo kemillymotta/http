@@ -265,7 +265,7 @@ Cabeçalhos:
 ### Pergunta 8.3
 > Confirme que todos os breakpoints foram desabilitados.
 
-- [ ] Breakpoints desabilitados ao final (Shift+F11)
+- [x] Breakpoints desabilitados ao final (Shift+F11)
 
 ---
 
@@ -325,12 +325,13 @@ Cabeçalhos:
 
 ## Encerramento — Higiene de segurança (obrigatório no Fluxo A)
 
-**Captura de tela do `certmgr.msc` após remoção do certificado:** `evidencias/encerramento_certmgr.png`
+**Captura de tela do `certmgr.msc` após remoção do certificado:**
+![Captura da atividade](../evidencias/atv8.png)
 
-- [ ] *Decrypt HTTPS traffic* desabilitado no Fiddler
-- [ ] Certificado `DO_NOT_TRUST_FiddlerRoot` removido do Windows (`certmgr.msc`)
-- [ ] Certificado `DO_NOT_TRUST_FiddlerRoot` removido do Firefox (se aplicável)
-- [ ] Fiddler fechado (porta 8888 liberada)
+- [x] *Decrypt HTTPS traffic* desabilitado no Fiddler
+- [x] Certificado `DO_NOT_TRUST_FiddlerRoot` removido do Windows (`certmgr.msc`)
+- [x] Certificado `DO_NOT_TRUST_FiddlerRoot` removido do Firefox (se aplicável)
+- [x] Fiddler fechado (porta 8888 liberada)
 
 **Comentário do aluno sobre a importância dessa etapa:**
 
